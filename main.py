@@ -41,6 +41,10 @@ class main:
             if not True in self.rabbitmq_status_list:
                 self.email_manager.send_email()
                 self.rabbitmq_status_list = []
+            else:
+                if self.rabbitmq_queue.check_queue_lenght():
+                    self.email_manager.send_email()
+                    
             if not True in self.database_status_list:
                 self.email_manager.send_email()
                 self.database_status_list = []

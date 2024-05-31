@@ -6,6 +6,7 @@ from constant import (
     RABBIT_QUEUE_NAME,
     RABBIT_EXCHANGE_NAME,
     RABBIT_ROUTING_KEY,
+    RABBIT_QUEUE_MAX_SIZE
 )
 import pika
 import time
@@ -55,23 +56,14 @@ class RabbitMQManager:
     def message_count_(self):
         print(self.message_queue.method.message_count)
 
-    def send_message(self):
-        connection = pika.BlockingConnection(self.parameters)
+    def check_queue_lenght(self):
+        try:
+            self.queue = self.channel.queue_declare(queue=RABBIT_QUEUE_NAME, passive=True)
+            self.channel.queue_bind(queue=self.queue.method.queue, exchange=RABBIT_EXCHANGE_NAME, routing_key=RABBIT_ROUTING_KEY)
+            message_count = self.queue.method.message_count
 
-        channel = connection.channel()
-
-        self.message_queue = channel.queue_declare(queue=RABBIT_QUEUE_NAME)
-
-        employee__id = 1
-
-        while True:
-
-            message = f"sending message id: {employee__id}"
-
-            channel.basic_publish(exchange="", routing_key="letterbox", body=message)
-
-            print(f"send message: {message}")
-            time.sleep(random.randint(1, 4))
-
-            employee__id += 1
-            self.message_count_()
+            if message_count >= RABBIT_QUEUE_MAX_SIZE:
+                return False
+        except Exception as e:
+            print(e)
+            return False
