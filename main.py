@@ -38,10 +38,12 @@ class main:
         ):
             print(all(self.rabbitmq_status_list), all(self.database_status_list))
             
-            # if not True in self.rabbitmq_status_list:
-            #     self.email_manager.send_email()
-            # if not True in self.database_status_list:
-            #     self.email_manager.send_email()
+            if not True in self.rabbitmq_status_list:
+                self.email_manager.send_email()
+                self.rabbitmq_status_list = []
+            if not True in self.database_status_list:
+                self.email_manager.send_email()
+                self.database_status_list = []
                 
 
 
