@@ -8,17 +8,24 @@ class email_manager:
         self.rebbitmq_previous_time_status = datetime.datetime.now().second
         self.database_previous_time_status = datetime.datetime.now().second
         
-    def send_email(self):
-        if self.rebbitmq_previous_time_status-datetime.datetime.now().second >= 1:
+    def rabbitmq_send_email(self):
+        print("second",self.rebbitmq_previous_time_status-datetime.datetime.now().second)
+        if datetime.datetime.now().second-self.rebbitmq_previous_time_status >= 1:
+            print("*"*10)
             print("send email for rabbitmq")
             self.rebbitmq_previous_time_status = datetime.datetime.now().second
+        else:
+            print("no need to send email rab")
+        print("time", self.rebbitmq_previous_time_status, self.database_previous_time_status)
             
+    def database_send_email(self):   
         if self.database_previous_time_status-datetime.datetime.now().second >= 1:
+            print("*"*10)
             print("send email for database")
             self.database_previous_time_status = datetime.datetime.now().second
         
         else:
-            print("no need to send email")
+            print("no need to send email data")
         print("time", self.rebbitmq_previous_time_status, self.database_previous_time_status)
         
         

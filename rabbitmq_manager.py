@@ -53,8 +53,6 @@ class RabbitMQManager:
     def message_count(self):
         return False
     
-    def message_count_(self):
-        print(self.message_queue.method.message_count)
 
     def check_queue_lenght(self):
         try:
@@ -63,7 +61,7 @@ class RabbitMQManager:
             message_count = self.queue.method.message_count
 
             if message_count >= RABBIT_QUEUE_MAX_SIZE:
-                return False
+                return True
         except Exception as e:
             print(e)
-            return False
+            return True

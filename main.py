@@ -24,37 +24,35 @@ class main:
             print("5 min completed")
             self.rabbitmq_status_list.append(self.rabbitmq_queue.reconnect())
             self.database_status_list.append(self.database_manager.reconnect())
-        print(self.current_time)
-        print("len", len(self.rabbitmq_status_list), len(self.database_status_list))
-
-        if len(self.rabbitmq_status_list) > 2 and len(self.database_status_list) > 2:
-            print(self.rabbitmq_status_list[0], self.database_status_list[0])
-            a = self.rabbitmq_status_list.pop(0)
-            b = self.database_status_list.pop(0)
-            print(a, b)
-
-        elif (
-            len(self.rabbitmq_status_list) == 2 and len(self.database_status_list) == 2
-        ):
-            print(all(self.rabbitmq_status_list), all(self.database_status_list))
             
-            if not True in self.rabbitmq_status_list:
-                self.email_manager.send_email()
-                self.rabbitmq_status_list = []
-            else:
-                if self.rabbitmq_queue.check_queue_lenght():
-                    self.email_manager.send_email()
-                    
-            if not True in self.database_status_list:
-                self.email_manager.send_email()
-                self.database_status_list = []
-                
-
+            self.check_send_email()
+            
+    def check_send_email(self):
+        print("first", self.rabbitmq_status_list, self.database_status_list)
+        if self.rabbitmq_queue.check_queue_lenght():
+            self.email_manager.rabbitmq_send_email()
+        
+        if len(self.rabbitmq_status_list)<2 and len(self.database_status_list)<2:
+            pass
+        else:
+            if (len(self.rabbitmq_status_list) == 2 or len(self.database_status_list) == 2):
+                if len(self.rabbitmq_status_list) == 2:
+                    if  True not in self.rabbitmq_status_list:
+                        self.email_manager.rabbitmq_send_email()
+                        self.rabbitmq_status_list = []
+                if len(self.database_status_list) == 2:
+                    if  True not in self.database_status_list:
+                        self.email_manager.database_send_email()
+                        self.database_status_list = []  
+            if len(self.rabbitmq_status_list) > 2:
+                for _ in range(len(self.rabbitmq_status_list)-2):
+                    self.rabbitmq_status_list.pop(0)
+            if len(self.database_status_list) > 2:
+                for _ in range(len(self.database_status_list)-2):
+                    self.database_status_list.pop(0)
+        print(self.rabbitmq_status_list, self.database_status_list)
 
 main = main()
-
-# main.check_queue_size()
-
 
 while True:
     main.check_time_status()
