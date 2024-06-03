@@ -4,29 +4,15 @@ import boto3
 # from constants import AWS_REGION, AWS_SES_ACCESS_KEY, AWS_SES_SECRET_KEY, RECEIVER_LIST, SENDER_EMAIL
 
 class email_manager:
-    def __init__(self) -> None:
-        self.rebbitmq_previous_time_status = datetime.datetime.now().second
-        self.database_previous_time_status = datetime.datetime.now().second
         
     def rabbitmq_send_email(self):
-        print("second",self.rebbitmq_previous_time_status-datetime.datetime.now().second)
-        if datetime.datetime.now().second-self.rebbitmq_previous_time_status >= 1:
-            print("*"*10)
-            print("send email for rabbitmq")
-            self.rebbitmq_previous_time_status = datetime.datetime.now().second
-        else:
-            print("no need to send email rab")
-        print("time", self.rebbitmq_previous_time_status, self.database_previous_time_status)
+        print("*"*10)
+        print("send email for rabbitmq")
             
     def database_send_email(self):   
-        if self.database_previous_time_status-datetime.datetime.now().second >= 1:
-            print("*"*10)
-            print("send email for database")
-            self.database_previous_time_status = datetime.datetime.now().second
+        print("*"*10)
+        print("send email for database")
         
-        else:
-            print("no need to send email data")
-        print("time", self.rebbitmq_previous_time_status, self.database_previous_time_status)
         
         
 # class MailNotifier:

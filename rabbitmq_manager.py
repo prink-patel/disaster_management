@@ -63,5 +63,5 @@ class RabbitMQManager:
             if message_count >= RABBIT_QUEUE_MAX_SIZE:
                 return True
         except Exception as e:
-            print(e)
+            print("1")
             return True
