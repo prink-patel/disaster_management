@@ -1,4 +1,4 @@
-
+from constant import MONGODB_URL,DATABASE_NAME
 from datetime import timedelta
 from pymongo import MongoClient
 
@@ -12,16 +12,16 @@ class mongodb:
     
     def __init__(self):
         try:
-            self.myclient = MongoClient("asdflocalefdsfdsfhos")
-            self.mydb = self.myclient["mydatabase"]
+            self.myclient = MongoClient(MONGODB_URL)
+            self.mydb = self.myclient[DATABASE_NAME]
         except:
             print("MongoDB not connected")
             
     def reconnect(self):
         connected = False
         try:
-            self.myclient = MongoClient("gfglocalhodsfstsdfsdfsdasdf")
-            self.mydb = self.myclient["mydatabase"]
+            self.myclient = MongoClient(MONGODB_URL)
+            self.mydb = self.myclient[DATABASE_NAME]
             connected = True
         except:
             print("MongoDB not connected")

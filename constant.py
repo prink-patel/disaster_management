@@ -7,3 +7,7 @@ RABBIT_EXCHANGE_NAME = "ams"
 RABBIT_ROUTING_KEY = "ams"
 
 RABBIT_QUEUE_MAX_SIZE = 400
+
+
+MONGODB_URL ="asdflocalefdsfdsfhos"
+DATABASE_NAME = "mydatabase"
